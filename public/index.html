@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>M3U8 Proxy</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        form div { margin-bottom: 15px; }
+        label { display: inline-block; width: 150px; }
+        input { width: 400px; padding: 8px; }
+        button { padding: 10px 20px; background: #0066cc; color: white; border: none; cursor: pointer; }
+        #result { background: #f0f0f0; padding: 15px; margin-top: 20px; border-radius: 5px; }
+        #proxyLink { word-break: break-all; color: #0066cc; }
+    </style>
+</head>
+<body>
+    <h1>M3U8 Proxy Service</h1>
+    <form id="proxyForm">
+        <div>
+            <label for="m3u8Url">M3U8 URL:</label>
+            <input type="url" id="m3u8Url" name="m3u8Url" required placeholder="https://example.com/stream.m3u8">
+        </div>
+        <div>
+            <label for="origin">Origin Header:</label>
+            <input type="text" id="origin" name="origin" placeholder="https://example.com">
+        </div>
+        <div>
+            <label for="referer">Referer Header:</label>
+            <input type="text" id="referer" name="referer" placeholder="https://example.com/player.html">
+        </div>
+        <button type="submit">Generate Proxy URL</button>
+    </form>
+    
+    <div id="result" style="display: none;">
+        <h3>Your Proxy URL:</h3>
+        <a id="proxyLink" href="#" target="_blank"></a>
+        <p>Use this URL in your video player or <a id="testLink" href="#">test it now</a>.</p>
+    </div>
+
+    <script>
+        document.getElementById('proxyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new URLSearchParams();
+            formData.append('m3u8Url', document.getElementById('m3u8Url').value);
+            formData.append('origin', document.getElementById('origin').value);
+            formData.append('referer', document.getElementById('referer').value);
+            
+            const proxyUrl = `${window.location.origin}/proxy?${formData.toString()}`;
+            
+            document.getElementById('proxyLink').href = proxyUrl;
+            document.getElementById('proxyLink').textContent = proxyUrl;
+            document.getElementById('testLink').href = proxyUrl;
+            document.getElementById('result').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
